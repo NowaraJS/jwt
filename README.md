@@ -1,142 +1,164 @@
-# Prepare your package :
-
-## 1. Add in your repository environment variables and deploy keys:
-
-### 1.1 Prerequisites
-
-#### 1.1.1 SSH
-Generated SSH key with `ssh-keygen -t ed25519 -C "your_mail@domain.ext" -f your_package_name`
-
-- Get the public key with:
-	```bash
-	cat your_package_name.pub
-	```
-	You will get an output like this:
-	```
-	ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC ...
-	```
-
-- Get the private key with:
-	```bash
-	cat your_package_name
-	```
-	You will get an output like this:
-	```
-	-----BEGIN OPENSSH PRIVATE KEY-----
-	...
-	-----END OPENSSH PRIVATE KEY-----
-	```
-
-#### 1.1.2 GPG **(You can reuse your existing GPG key if you have one for you account)**
-
-- Generate a GPG key with `gpg --full-generate-key` and follow the prompts to create a key suitable for signing commits and tags **whithout passphrase**.
-
-- Get the public key with:
-	```bash
-		gpg --armor --export your_email@domain.ext
-	```
-	
-	You will get an output like this:
-	```
-	-----BEGIN PGP PUBLIC KEY BLOCK-----
-	...
-	-----END PGP PUBLIC KEY BLOCK-----
-	```
-	And then copy the output and put in yourh github account settings -> SSH and GPG keys -> New GPG key.
-
-- Get the private key (for github-action) with:
-	```bash
-	gpg --armor --export-secret-keys your_email@domain.ext
-	```
-	You will get an output like this:
-	```
-	-----BEGIN PGP PRIVATE KEY BLOCK-----
-	...
-	-----END PGP PRIVATE KEY BLOCK-----
-	```
-
-### 1.2 Deploy keys
-Create a deploy key in your repository example `SSH_KEY` and put the public key generated in step [1.1.1](#111-ssh).
-
-### 1.3 Environment variables
-
-All environment variables are used in the workflow!
-
-Add the following environment variables to your repository settings:
-
-- `KEY_SSH`: The private SSH key for accessing the repository. (Generated in step [1.1.1](#111-ssh))
-- `KEY_GPG`: The GPG private key for signing commits and tags for git (Generated in step [1.1.2](#112-gpg))
-- `GIT_EMAIL`: Your email address associated with the GPG key.
-- `NPM_TOKEN`: Your npm token for publishing packages.
-
-## 2 Configure your repository
-- Add Ruleset for `main` and `develop` branches.
-- Add tag `need-triage` for issues.
-- Add your settings..
-
-## 3 Configure your package.json
-Update :
-- `name`: The name of your package, e.g., `@your-scope/your-package-name` or `your-package-name`.
-- `version`: Reset to `1.0.0`. or the version you want to start with.
-- `description`: A brief description of your package.
-- `keywords`: Add relevant keywords to help others find your package. (e.g., `["bun", "package-template"]`)
-- `exports`: Define the entry points for your package. For example:
-	```json
-	"exports": {
-		".": "./dist/index.js",
-		"./types": "./dist/types/index.js"
-	}
-	```
-
-## 4 Configure your builder
-Just change `entrypoints` in `builder.ts` to your entry point file. (e.g., `source/index.ts`).
-
-## 5 Update README.md
-Update the README.md file with relevant information about your package.
-
----
----
-<!-- You Can Remove all content above this line -->
-
-# 📦 Package Template
+# 🔐 NowaraJS - JWT
 
 ## 📌 Table of Contents
 
-- [📦 Package Template](#-package-template)
+- [🔐 NowaraJS - JWT](#-nowarajs---jwt)
 	- [📌 Table of Contents](#-table-of-contents)
 	- [📝 Description](#-description)
 	- [🔧 Installation](#-installation)
 	- [⚙️ Usage](#-usage)
+		- [Basic JWT Operations](#basic-jwt-operations)
+		- [Advanced Usage with Custom Claims](#advanced-usage-with-custom-claims)
+		- [Human-Readable Expiration Times](#human-readable-expiration-times)
+		- [Error Handling](#error-handling)
 	- [📚 API Reference](#-api-reference)
+		- [signJWT(secret, payload, expiration?)](#signjwtsecret-payload-expiration)
+		- [verifyJWT(token, secret)](#verifyjwttoken-secret)
+		- [parseHumanTimeToSeconds(timeExpression)](#parsehumantimetosecondstimeexpression)
+	- [🧪 Testing](#-testing)
 	- [⚖️ License](#-license)
 	- [📧 Contact](#-contact)
 
 ## 📝 Description
 
-> Template for creating new npm packages with Bun.
+> A robust JWT (JSON Web Token) utility library built on top of the Jose library.
 
-**Package Template** provides a starting point for building and publishing npm packages. Customize this section with a description of your package's purpose and features.
+**@nowarajs/jwt** provides a simple and powerful API for signing and verifying JSON Web Tokens with built-in error handling, human-readable time expressions, and comprehensive JWT claims management. Built with TypeScript and optimized for Bun runtime.
 
 ## 🔧 Installation
 
 ```bash
-bun add @your-scope/your-package-name
+bun add @nowarajs/jwt @nowarajs/error
 ```
 
 ## ⚙️ Usage
 
-```ts
-import { YourExportedFunction } from '@your-scope/your-package-name'
+### Basic JWT Operations
 
-// Example usage
-YourExportedFunction()
+```ts
+import { signJWT, verifyJWT } from '@nowarajs/jwt'
+
+// Sign a JWT with default 15-minute expiration
+const secret = 'your-secret-key'
+const payload = { userId: '123', role: 'user' }
+
+const token = await signJWT(secret, payload)
+
+// Verify the JWT
+const result = await verifyJWT(token, secret)
+if (result)
+  console.log('Valid token:', result.payload)
+else
+  console.log('Invalid or expired token')
+```
+
+### Advanced Usage with Custom Claims
+
+```ts
+import { signJWT } from '@nowarajs/jwt'
+
+const token = await signJWT(
+  'your-secret-key',
+  {
+    userId: '123',
+    role: 'admin',
+    permissions: ['read', 'write'],
+    // Override default claims
+    iss: 'MyApp',
+    sub: 'user-123',
+    aud: ['web-app', 'mobile-app']
+  },
+  '2 hours' // Human-readable expiration
+)
+```
+
+### Human-Readable Expiration Times
+
+The library supports various expiration formats:
+
+```ts
+// Numeric timestamp (seconds since epoch)
+await signJWT(secret, payload, 1672531200)
+
+// Date object
+await signJWT(secret, payload, new Date('2024-12-31'))
+
+// Human-readable strings
+await signJWT(secret, payload, '15 minutes')
+await signJWT(secret, payload, '2 hours')
+await signJWT(secret, payload, '1 day')
+await signJWT(secret, payload, '1 week')
+await signJWT(secret, payload, '30 days')
+
+// With modifiers
+await signJWT(secret, payload, '+2 hours')
+await signJWT(secret, payload, '1 hour from now')
+```
+
+### Error Handling
+
+```ts
+import { signJWT, verifyJWT } from '@nowarajs/jwt'
+import { HttpError } from '@nowarajs/error'
+
+try {
+  const token = await signJWT('secret', { userId: '123' }, '-1 hour') // Past expiration
+} catch (error) {
+  if (error instanceof HttpError) {
+    console.log('JWT Error:', error.message)
+    console.log('Status Code:', error.httpStatusCode)
+  }
+}
 ```
 
 ## 📚 API Reference
 
-You can find the complete API reference documentation for `YourPackageName` at:
+### signJWT(secret, payload, expiration?)
 
-- [Reference Documentation](https://your-package-docs.com)
+Signs a JWT with the provided secret and payload.
+
+**Parameters:**
+- `secret` (string): The secret key for signing the JWT
+- `payload` (JWTPayload): The payload object to include in the JWT
+- `expiration` (number | string | Date, optional): Token expiration time. Defaults to 15 minutes from now.
+
+**Returns:** `Promise<string>` - The signed JWT token
+
+**Default Claims:**
+- `iss`: 'Core-Issuer'
+- `sub`: ''
+- `aud`: ['Core-Audience']
+- `jti`: UUID v7
+- `nbf`: Current timestamp
+- `iat`: Current timestamp
+- `exp`: Specified expiration time
+
+### verifyJWT(token, secret)
+
+Verifies a JWT token with the provided secret.
+
+**Parameters:**
+- `token` (string): The JWT token to verify
+- `secret` (string): The secret key used to sign the token
+
+**Returns:** `Promise<JWTVerifyResult | false>` - The verification result or false if invalid
+
+### parseHumanTimeToSeconds(timeExpression)
+
+Converts human-readable time expressions to seconds.
+
+**Parameters:**
+- `timeExpression` (string): Human-readable time expression (e.g., "2 hours", "30 minutes")
+
+**Returns:** `number` - Time in seconds
+
+**Supported Units:**
+- Seconds: `s`, `sec`, `secs`, `second`, `seconds`
+- Minutes: `m`, `min`, `mins`, `minute`, `minutes`
+- Hours: `h`, `hr`, `hrs`, `hour`, `hours`
+- Days: `d`, `day`, `days`
+- Weeks: `w`, `week`, `weeks`
+- Years: `y`, `yr`, `yrs`, `year`, `years`
 
 ## ⚖️ License
 
@@ -144,6 +166,6 @@ Distributed under the MIT License. See [LICENSE](./LICENSE) for more information
 
 ## 📧 Contact
 
-- Mail: [your-email@domain.com](mailto:your-email@domain.com)
-- Github: [Project link](https://github.com/your-username/your-repo)
+- Github: [NowaraJS Organization](https://github.com/NowaraJS)
+- Repository: [jwt](https://github.com/NowaraJS/jwt)
 
