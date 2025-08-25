@@ -113,52 +113,9 @@ try {
 
 ## 📚 API Reference
 
-### signJWT(secret, payload, expiration?)
+You can find the complete API reference documentation for `jwt` at:
 
-Signs a JWT with the provided secret and payload.
-
-**Parameters:**
-- `secret` (string): The secret key for signing the JWT
-- `payload` (JWTPayload): The payload object to include in the JWT
-- `expiration` (number | string | Date, optional): Token expiration time. Defaults to 15 minutes from now.
-
-**Returns:** `Promise<string>` - The signed JWT token
-
-**Default Claims:**
-- `iss`: 'Core-Issuer'
-- `sub`: ''
-- `aud`: ['Core-Audience']
-- `jti`: UUID v7
-- `nbf`: Current timestamp
-- `iat`: Current timestamp
-- `exp`: Specified expiration time
-
-### verifyJWT(token, secret)
-
-Verifies a JWT token with the provided secret.
-
-**Parameters:**
-- `token` (string): The JWT token to verify
-- `secret` (string): The secret key used to sign the token
-
-**Returns:** `Promise<JWTVerifyResult | false>` - The verification result or false if invalid
-
-### parseHumanTimeToSeconds(timeExpression)
-
-Converts human-readable time expressions to seconds.
-
-**Parameters:**
-- `timeExpression` (string): Human-readable time expression (e.g., "2 hours", "30 minutes")
-
-**Returns:** `number` - Time in seconds
-
-**Supported Units:**
-- Seconds: `s`, `sec`, `secs`, `second`, `seconds`
-- Minutes: `m`, `min`, `mins`, `minute`, `minutes`
-- Hours: `h`, `hr`, `hrs`, `hour`, `hours`
-- Days: `d`, `day`, `days`
-- Weeks: `w`, `week`, `weeks`
-- Years: `y`, `yr`, `yrs`, `year`, `years`
+- [Reference Documentation](https://nowarajs.github.io/jwt/)
 
 ## ⚖️ License
 
