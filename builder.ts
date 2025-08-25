@@ -23,9 +23,6 @@ await Bun.build({
 		// # ————————— Enums ————————— #
 		'./source/enums/index.ts',
 
-		// # ————————— Types ————————— #
-		'./source/types/index.ts',
-
 		// # ————————— Utils ————————— #
 		'./source/utils/index.ts',
 
