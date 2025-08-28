@@ -1,4 +1,25 @@
 
+## v1.1.2
+
+[compare changes](https://github.com/NowaraJS/jwt/compare/v1.1.1...v1.1.2)
+
+### 📦 Build
+
+- **📦:** [Update dependencies in package.json and bun.lock] ([0d01079](https://github.com/NowaraJS/jwt/commit/0d01079))
+
+### 🦉 Chore
+
+- **🦉:** [Update .npmignore for better file management] ([4dfb05c](https://github.com/NowaraJS/jwt/commit/4dfb05c))
+
+### 🤖 CI
+
+- **🤖:** [Remove CHANGELOG.md before publishing to NPM] ([abc8e47](https://github.com/NowaraJS/jwt/commit/abc8e47))
+- **🤖:** [Remove bun-version specification in CI workflows] ([86fda2f](https://github.com/NowaraJS/jwt/commit/86fda2f))
+
+### ❤️ Contributors
+
+- Komiroko <komiriko@pm.me>
+
 ## v1.1.1
 
 [compare changes](https://github.com/NowaraJS/jwt/compare/v1.1.0...v1.1.1)
