@@ -1,6 +1,6 @@
 import { BaseError } from '@nowarajs/error';
 
-import { PARSE_HUMAN_TIME_TO_SECONDS_ERROR_KEYS } from '#/enums/parseHumanTimeToSecondsErrorKeys';
+import { PARSE_HUMAN_TIME_TO_SECONDS_ERROR_KEYS } from '#/enums/parse-human-time-to-seconds-error-keys';
 
 /**
  * Time unit constants in seconds
@@ -19,7 +19,7 @@ const TIME_UNITS = {
  * Matches patterns like: "2 hours", "+30 minutes", "1 day ago", "5 seconds from now"
  */
 const TIME_EXPRESSION_REGEX
-    = /^(\+|-)? ?(\d+|\d+\.\d+) ?(seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)(?: (ago|from now))?$/i;
+	= /^(\+|-)? ?(\d+|\d+\.\d+) ?(seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)(?: (ago|from now))?$/i;
 
 /**
  * Mapping of unit strings to their corresponding time unit values
@@ -84,9 +84,7 @@ export const parseHumanTimeToSeconds = (timeExpression: string): number => {
 	const match = TIME_EXPRESSION_REGEX.exec(timeExpression);
 
 	if (!match || (match[4] && match[1]))
-		throw new BaseError({
-			message: PARSE_HUMAN_TIME_TO_SECONDS_ERROR_KEYS.INVALID_TIME_EXPRESSION
-		});
+		throw new BaseError(PARSE_HUMAN_TIME_TO_SECONDS_ERROR_KEYS.INVALID_TIME_EXPRESSION);
 
 	const [, sign, valueStr, unitStr, direction] = match;
 	const value = parseFloat(valueStr);

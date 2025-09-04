@@ -9,7 +9,7 @@ import {
 import type { JWTPayload, JWTVerifyResult } from 'jose';
 
 import { signJWT, verifyJWT } from '#//jwt';
-import { JWT_ERROR_KEYS } from '#/enums/jwtErrorKeys';
+import { JWT_ERROR_KEYS } from '#/enums/jwt-error-keys';
 
 describe('JWT Core Functions', () => {
 	const testSecret = 'my-very-secure-secret-key-that-is-long-enough-for-hs256-algorithm';

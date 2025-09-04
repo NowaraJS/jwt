@@ -1,7 +1,7 @@
 import { BaseError } from '@nowarajs/error';
 import { describe, expect, test } from 'bun:test';
 
-import { parseHumanTimeToSeconds } from '#/utils/parseHumanTimeToSeconds';
+import { parseHumanTimeToSeconds } from '#/utils/parse-human-time-to-seconds';
 
 describe('parseHumanTimeToSeconds', () => {
 	describe('basic time units', () => {
