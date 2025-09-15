@@ -1,4 +1,26 @@
 
+## v1.1.3
+
+[compare changes](https://github.com/NowaraJS/jwt/compare/v1.1.2...v1.1.3)
+
+### 🧹 Refactors
+
+- **🧹:** [Rename files to kebab-case and refacto BaseError V1.3] ([17ddcab](https://github.com/NowaraJS/jwt/commit/17ddcab))
+- **🧹:** [Simplify imports and enhance loop syntax in jwt.spec.ts] ([ccf7c27](https://github.com/NowaraJS/jwt/commit/ccf7c27))
+
+### 📦 Build
+
+- **📦:** [Update devDependencies in package.json] ([8dd589d](https://github.com/NowaraJS/jwt/commit/8dd589d))
+- **📦:** [Update devDependencies in package.json] ## Build Changes - Updated `@eslint/js` from `^9.34.0` to `^9.35.0` - Updated `@nowarajs/error` from `^1.3.0` to `^1.3.1` - Updated `@types/bun` from `^1.2.21` to `^1.2.22` - Updated `eslint` from `^9.34.0` to `^9.35.0` - Updated `globals` from `^16.3.0` to `^16.4.0` - Updated `typescript-eslint` from `^8.42.0` to `^8.43.0` - Updated `@nowarajs/error` in `peerDependencies` from `^1.1.8` to `^1.3.1` ([cc8fe84](https://github.com/NowaraJS/jwt/commit/cc8fe84))
+
+### 🦉 Chore
+
+- **🦉:** [Add Dependabot configuration for package updates] ([14c7d25](https://github.com/NowaraJS/jwt/commit/14c7d25))
+
+### ❤️ Contributors
+
+- Komiroko <komiriko@pm.me>
+
 ## v1.1.2
 
 [compare changes](https://github.com/NowaraJS/jwt/compare/v1.1.1...v1.1.2)
