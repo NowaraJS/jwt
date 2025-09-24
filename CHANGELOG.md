@@ -1,4 +1,20 @@
 
+## v1.1.5
+
+[compare changes](https://github.com/NowaraJS/jwt/compare/v1.1.4...v1.1.5)
+
+### 🔧 Fixes
+
+- **🔧:** [Correct expiration calculation in signJWT function] ## Bug Fixes - Fixed the expiration calculation in the `signJWT` function to ensure that the expiration time is correctly set to the current time plus the parsed human-readable time. ([13b5042](https://github.com/NowaraJS/jwt/commit/13b5042))
+
+### 🧪 Tests
+
+- **🧪:** [Enhance JWT expiration tests with additional scenarios] ## Tests - Added new test cases for various expiration scenarios including:   - Date expiration for 30 minutes and 1 day.   - Human-readable time expressions for 15 minutes, 2 hours, and 30 minutes.   - Additional checks for past expiration timestamps. - Improved tolerance checks for expiration validation. ([bfab8a9](https://github.com/NowaraJS/jwt/commit/bfab8a9))
+
+### ❤️ Contributors
+
+- Komiroko <komiriko@pm.me>
+
 ## v1.1.4
 
 [compare changes](https://github.com/NowaraJS/jwt/compare/v1.1.3...v1.1.4)
