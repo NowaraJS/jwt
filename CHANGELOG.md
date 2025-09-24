@@ -1,4 +1,16 @@
 
+## v1.1.4
+
+[compare changes](https://github.com/NowaraJS/jwt/compare/v1.1.3...v1.1.4)
+
+### 📦 Build
+
+- **📦:** [Update Dependencies] ([d1568d2](https://github.com/NowaraJS/jwt/commit/d1568d2))
+
+### ❤️ Contributors
+
+- Komiroko <komiriko@pm.me>
+
 ## v1.1.3
 
 [compare changes](https://github.com/NowaraJS/jwt/compare/v1.1.2...v1.1.3)
