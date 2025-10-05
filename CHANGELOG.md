@@ -1,4 +1,29 @@
 
+## v1.1.6
+
+[compare changes](https://github.com/NowaraJS/jwt/compare/v1.1.5...v1.1.6)
+
+### 📦 Build
+
+- **📦:** [Update devDependencies in package.json] ([de08d7f](https://github.com/NowaraJS/jwt/commit/de08d7f))
+
+### 🦉 Chore
+
+- **🦉:** [Remove Dependabot configuration file] ([aa00dbb](https://github.com/NowaraJS/jwt/commit/aa00dbb))
+
+### 🧪 Tests
+
+- **🧪:** [Convert describe blocks to concurrent for JWT tests] ([f7ec7fb](https://github.com/NowaraJS/jwt/commit/f7ec7fb))
+- **🧪:** [Refactor JWT test assertions for clarity and accuracy] ([d73766e](https://github.com/NowaraJS/jwt/commit/d73766e))
+
+### 🤖 CI
+
+- **🤖:** [Update CI/CD workflows and actions for Bun and Git setup] ([922bf9d](https://github.com/NowaraJS/jwt/commit/922bf9d))
+
+### ❤️ Contributors
+
+- Komiroko <komiriko@pm.me>
+
 ## v1.1.5
 
 [compare changes](https://github.com/NowaraJS/jwt/compare/v1.1.4...v1.1.5)
