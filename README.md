@@ -23,7 +23,7 @@
 
 > A robust JWT (JSON Web Token) utility library built on top of the Jose library.
 
-**@nowarajs/jwt** provides a simple and powerful API for signing and verifying JSON Web Tokens with built-in error handling, human-readable time expressions, and comprehensive JWT claims management. Built with TypeScript and optimized for Bun runtime.
+**@nowarajs/jwt** provides a simple API for signing and verifying JSON Web Tokens with built-in error handling, human-readable time expressions, and comprehensive JWT claims management. Built with TypeScript and optimized for Bun runtime.
 
 ## 🔧 Installation
 
