@@ -1,4 +1,28 @@
 
+## v1.1.7
+
+[compare changes](https://github.com/NowaraJS/jwt/compare/v1.1.6...v1.1.7)
+
+### 📖 Documentation
+
+- **📖:** [Update README] ([bfbc47c](https://github.com/NowaraJS/jwt/commit/bfbc47c))
+
+### 📦 Build
+
+- **📦:** [Update dependencies in package.json] ([4966d58](https://github.com/NowaraJS/jwt/commit/4966d58))
+
+### 🦉 Chore
+
+- **🦉:** [Add semver field to changelog entries] ([f6eb245](https://github.com/NowaraJS/jwt/commit/f6eb245))
+
+### 🎨 Styles
+
+- **🎨:** [Enhance ESLint configuration for improved readability] ([8754c5f](https://github.com/NowaraJS/jwt/commit/8754c5f))
+
+### ❤️ Contributors
+
+- Komiroko <komiriko@pm.me>
+
 ## v1.1.6
 
 [compare changes](https://github.com/NowaraJS/jwt/compare/v1.1.5...v1.1.6)
