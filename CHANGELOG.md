@@ -1,4 +1,24 @@
 
+## v1.1.8
+
+[compare changes](https://github.com/NowaraJS/jwt/compare/v1.1.7...v1.1.8)
+
+### 📦 Build
+
+- **📦:** [Update devDependencies for improved compatibility] ([8a140c8](https://github.com/NowaraJS/jwt/commit/8a140c8))
+
+### 🦉 Chore
+
+- **🦉:** [Update .gitignore to include .zed directory] ([c3f3e42](https://github.com/NowaraJS/jwt/commit/c3f3e42))
+
+### 🤖 CI
+
+- **🤖:** [Rename workflow from main-ci to main-test] ([06071ee](https://github.com/NowaraJS/jwt/commit/06071ee))
+
+### ❤️ Contributors
+
+- Komiroko <komiriko@pm.me>
+
 ## v1.1.7
 
 [compare changes](https://github.com/NowaraJS/jwt/compare/v1.1.6...v1.1.7)
