@@ -123,6 +123,5 @@ Distributed under the MIT License. See [LICENSE](./LICENSE) for more information
 
 ## 📧 Contact
 
-- Github: [NowaraJS Organization](https://github.com/NowaraJS)
-- Repository: [jwt](https://github.com/NowaraJS/jwt)
-
+- Mail: [nowarajs@pm.me](mailto:nowarajs@pm.me)
+- GitHub: [NowaraJS](https://github.com/NowaraJS)
