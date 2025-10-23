@@ -1,4 +1,20 @@
 
+## v1.1.9
+
+[compare changes](https://github.com/NowaraJS/jwt/compare/v1.1.8...v1.1.9)
+
+### 📖 Documentation
+
+- **📖:** [Update readme] ([513f4ae](https://github.com/NowaraJS/jwt/commit/513f4ae))
+
+### 🦉 Chore
+
+- **🦉:** [Update @nowarajs/error dependency version] ([caa6913](https://github.com/NowaraJS/jwt/commit/caa6913))
+
+### ❤️ Contributors
+
+- Komiroko <komiriko@pm.me>
+
 ## v1.1.8
 
 [compare changes](https://github.com/NowaraJS/jwt/compare/v1.1.7...v1.1.8)
