@@ -1,4 +1,20 @@
 
+## v1.1.10
+
+[compare changes](https://github.com/NowaraJS/jwt/compare/v1.1.9...v1.1.10)
+
+### 🧹 Refactors
+
+- **🧹:** [Refactor JWT expiration handling and signing process] ([243503b](https://github.com/NowaraJS/jwt/commit/243503b))
+
+### 🧪 Tests
+
+- **🧪:** [Refactor JWT expiration handling in tests] ([e0d2efe](https://github.com/NowaraJS/jwt/commit/e0d2efe))
+
+### ❤️ Contributors
+
+- Komiroko <komiriko@pm.me>
+
 ## v1.1.9
 
 [compare changes](https://github.com/NowaraJS/jwt/compare/v1.1.8...v1.1.9)
