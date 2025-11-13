@@ -1,7 +1,8 @@
-import { BaseError } from '@nowarajs/error';
+import { InternalError } from '@nowarajs/error';
 import { describe, expect, test } from 'bun:test';
 
 import { parseHumanTimeToSeconds } from '#/utils/parse-human-time-to-seconds';
+import { PARSE_HUMAN_TIME_TO_SECONDS_ERROR_KEYS } from '#/enums/parse-human-time-to-seconds-error-keys';
 
 describe.concurrent('parseHumanTimeToSeconds', () => {
 	describe.concurrent('basic time units', () => {
@@ -156,14 +157,14 @@ describe.concurrent('parseHumanTimeToSeconds', () => {
 			'1 hr 30 min',
 			'next week',
 			'last month'
-		])('should throw BaseError for invalid format: "%s"', (input) => {
-			expect(() => parseHumanTimeToSeconds(input)).toThrow(BaseError);
+		])('should throw InternalError for invalid format: "%s"', (input) => {
+			expect(() => parseHumanTimeToSeconds(input)).toThrow(InternalError);
 
 			try {
 				parseHumanTimeToSeconds(input);
 			} catch (error) {
-				expect(error).toBeInstanceOf(BaseError);
-				expect((error as BaseError).message).toBe('parse_human_time_to_seconds.error.invalid_time_expression');
+				expect(error).toBeInstanceOf(InternalError);
+				expect((error as InternalError).message).toBe(PARSE_HUMAN_TIME_TO_SECONDS_ERROR_KEYS.INVALID_TIME_EXPRESSION);
 			}
 		});
 
@@ -173,14 +174,14 @@ describe.concurrent('parseHumanTimeToSeconds', () => {
 			'1 millisecond',
 			'1 nanosecond',
 			'1 fortnight'
-		])('should throw BaseError for unknown time units: "%s"', (input) => {
-			expect(() => parseHumanTimeToSeconds(input)).toThrow(BaseError);
+		])('should throw InternalError for unknown time units: "%s"', (input) => {
+			expect(() => parseHumanTimeToSeconds(input)).toThrow(InternalError);
 
 			try {
 				parseHumanTimeToSeconds(input);
 			} catch (error) {
-				expect(error).toBeInstanceOf(BaseError);
-				expect((error as BaseError).message).toBe('parse_human_time_to_seconds.error.invalid_time_expression');
+				expect(error).toBeInstanceOf(InternalError);
+				expect((error as InternalError).message).toBe(PARSE_HUMAN_TIME_TO_SECONDS_ERROR_KEYS.INVALID_TIME_EXPRESSION);
 			}
 		});
 
@@ -189,14 +190,14 @@ describe.concurrent('parseHumanTimeToSeconds', () => {
 			'-1 hour from now', // Can't have both - and from now
 			'+5 minutes ago',
 			'-10 seconds from now'
-		])('should throw BaseError for conflicting signs and directions: "%s"', (input) => {
-			expect(() => parseHumanTimeToSeconds(input)).toThrow(BaseError);
+		])('should throw InternalError for conflicting signs and directions: "%s"', (input) => {
+			expect(() => parseHumanTimeToSeconds(input)).toThrow(InternalError);
 
 			try {
 				parseHumanTimeToSeconds(input);
 			} catch (error) {
-				expect(error).toBeInstanceOf(BaseError);
-				expect((error as BaseError).message).toBe('parse_human_time_to_seconds.error.invalid_time_expression');
+				expect(error).toBeInstanceOf(InternalError);
+				expect((error as InternalError).message).toBe(PARSE_HUMAN_TIME_TO_SECONDS_ERROR_KEYS.INVALID_TIME_EXPRESSION);
 			}
 		});
 	});
