@@ -1,4 +1,20 @@
 
+## v1.2.0
+
+[compare changes](https://github.com/NowaraJS/jwt/compare/v1.1.10...v1.2.0)
+
+### 🚀 Enhancements
+
+- **🚀:** [use new InternalError class] ([653d0f9](https://github.com/NowaraJS/jwt/commit/653d0f9))
+
+### 📦 Build
+
+- **📦:** [Update dependencies in package.json] ([10331ba](https://github.com/NowaraJS/jwt/commit/10331ba))
+
+### ❤️ Contributors
+
+- Komiroko <komiriko@pm.me>
+
 ## v1.1.10
 
 [compare changes](https://github.com/NowaraJS/jwt/compare/v1.1.9...v1.1.10)
