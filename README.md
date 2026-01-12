@@ -23,6 +23,8 @@ It wraps jose with sane defaults, handles expiration with human-readable strings
 - 🔍 **UUID v7 for JTI**: Every token gets a unique, time-sortable JWT ID automatically.
 - 📅 **Auto-Managed Claims**: `iat`, `nbf`, `exp`, `jti` are set by default—override only what you need.
 - 🔒 **Built on Jose**: Rock-solid cryptography under the hood with HS256 signing.
+- 🔑 **Secret Validation**: Enforces minimum 32-character secrets for HS256 security.
+- ⚠️ **Typed Errors**: Throws `HttpError` (401) with specific error keys for expired, invalid, or malformed tokens.
 - 📦 **Bun-Optimized**: Designed for Bun runtime, zero unnecessary dependencies.
 
 ## 🔧 Installation
@@ -40,8 +42,11 @@ Use `signJWT` to create a token. The third argument accepts numbers, `Date` obje
 ```ts
 import { signJWT } from '@nowarajs/jwt';
 
+// Secret must be at least 32 characters
+const secret = 'your-secret-key-at-least-32-chars!';
+
 const token = await signJWT(
-  'your-secret-key',
+  secret,
   { userId: '123', role: 'admin' },
   '2 hours'
 );
@@ -49,16 +54,31 @@ const token = await signJWT(
 
 ### Verify a Token
 
-Returns the decoded payload or `false` if invalid/expired. No exceptions to catch.
+Returns the decoded payload or throws `HttpError` (401) if invalid/expired.
 
 ```ts
 import { verifyJWT } from '@nowarajs/jwt';
 
-const result = await verifyJWT(token, 'your-secret-key');
-if (result)
+try {
+  const result = await verifyJWT(token, secret);
   console.log('User ID:', result.payload.userId);
-else
-  console.log('Token invalid or expired');
+} catch (error) {
+  // HttpError with specific error key
+  console.log('Token verification failed:', error.message);
+}
+```
+
+### Verify with Options
+
+Validate issuer and audience claims:
+
+```ts
+import { verifyJWT } from '@nowarajs/jwt';
+
+const result = await verifyJWT(token, secret, {
+  issuer: 'Core-Issuer',
+  audience: 'Core-Audience'
+});
 ```
 
 ### Expiration Formats
