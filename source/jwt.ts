@@ -10,13 +10,11 @@ import {
 import { JWT_ERROR_KEYS } from '#/enums/jwt-error-keys';
 import { parseHumanTimeToSeconds } from '#/utils/parse-human-time-to-seconds';
 
-// Pre-allocated for performance (avoid re-instantiation on each call)
+// Avoid re-instantiation on each call
 const _textEncoder = new TextEncoder();
 
 export interface VerifyOptions {
-	/** Expected issuer claim */
 	issuer?: string;
-	/** Expected audience claim(s) */
 	audience?: string | string[];
 }
 
