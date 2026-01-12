@@ -1,4 +1,16 @@
 
+## v1.2.2
+
+[compare changes](https://github.com/NowaraJS/jwt/compare/v1.2.1...v1.2.2)
+
+### 📖 Documentation
+
+- **📖:** [update README for new verifyJWT API] ([1a741bf](https://github.com/NowaraJS/jwt/commit/1a741bf))
+
+### ❤️ Contributors
+
+- Komiriko <komiriko@pm.me>
+
 ## v1.2.1
 
 [compare changes](https://github.com/NowaraJS/jwt/compare/v1.2.0...v1.2.1)
