@@ -1,29 +1,29 @@
-# 🔐 NowaraJS - JWT
+# 🔐 NowaraJS JWT
+
+There are already plenty of JWT libraries out there. I built this one mostly for myself—to learn, to experiment, and to have something lightweight that fits my workflow without extra bloat.
+
+## Why this package?
+
+Honestly? **I just wanted to try building one.**
+
+It wraps jose with sane defaults, handles expiration with human-readable strings like `"2 hours"`, and auto-manages claims so I don't have to think about `iat`, `nbf`, or `jti` every time. Nothing revolutionary, just convenient.
 
 ## 📌 Table of Contents
 
-- [🔐 NowaraJS - JWT](#-nowarajs---jwt)
-	- [📌 Table of Contents](#-table-of-contents)
-	- [📝 Description](#-description)
-	- [🔧 Installation](#-installation)
-	- [⚙️ Usage](#-usage)
-		- [Basic JWT Operations](#basic-jwt-operations)
-		- [Advanced Usage with Custom Claims](#advanced-usage-with-custom-claims)
-		- [Human-Readable Expiration Times](#human-readable-expiration-times)
-		- [Error Handling](#error-handling)
-	- [📚 API Reference](#-api-reference)
-		- [signJWT(secret, payload, expiration?)](#signjwtsecret-payload-expiration)
-		- [verifyJWT(token, secret)](#verifyjwttoken-secret)
-		- [parseHumanTimeToSeconds(timeExpression)](#parsehumantimetosecondstimeexpression)
-	- [🧪 Testing](#-testing)
-	- [⚖️ License](#-license)
-	- [📧 Contact](#-contact)
+- [Features](#-features)
+- [Installation](#-installation)
+- [Usage](#-usage)
+- [API Reference](#-api-reference)
+- [License](#-license)
+- [Contact](#-contact)
 
-## 📝 Description
+## ✨ Features
 
-> A robust JWT (JSON Web Token) utility library built on top of the Jose library.
-
-**@nowarajs/jwt** provides a simple API for signing and verifying JSON Web Tokens with built-in error handling, human-readable time expressions, and comprehensive JWT claims management. Built with TypeScript and optimized for Bun runtime.
+- ⏱️ **Human-Readable Expiration**: Write `"15 minutes"` or `"2 days"` instead of calculating seconds.
+- 🔍 **UUID v7 for JTI**: Every token gets a unique, time-sortable JWT ID automatically.
+- 📅 **Auto-Managed Claims**: `iat`, `nbf`, `exp`, `jti` are set by default—override only what you need.
+- 🔒 **Built on Jose**: Rock-solid cryptography under the hood with HS256 signing.
+- 📦 **Bun-Optimized**: Designed for Bun runtime, zero unnecessary dependencies.
 
 ## 🔧 Installation
 
@@ -33,93 +33,73 @@ bun add @nowarajs/jwt @nowarajs/error
 
 ## ⚙️ Usage
 
-### Basic JWT Operations
+### Sign a Token
+
+Use `signJWT` to create a token. The third argument accepts numbers, `Date` objects, or human-readable strings.
 
 ```ts
-import { signJWT, verifyJWT } from '@nowarajs/jwt'
-
-// Sign a JWT with default 15-minute expiration
-const secret = 'your-secret-key'
-const payload = { userId: '123', role: 'user' }
-
-const token = await signJWT(secret, payload)
-
-// Verify the JWT
-const result = await verifyJWT(token, secret)
-if (result)
-  console.log('Valid token:', result.payload)
-else
-  console.log('Invalid or expired token')
-```
-
-### Advanced Usage with Custom Claims
-
-```ts
-import { signJWT } from '@nowarajs/jwt'
+import { signJWT } from '@nowarajs/jwt';
 
 const token = await signJWT(
   'your-secret-key',
-  {
-    userId: '123',
-    role: 'admin',
-    permissions: ['read', 'write'],
-    // Override default claims
-    iss: 'MyApp',
-    sub: 'user-123',
-    aud: ['web-app', 'mobile-app']
-  },
-  '2 hours' // Human-readable expiration
-)
+  { userId: '123', role: 'admin' },
+  '2 hours'
+);
 ```
 
-### Human-Readable Expiration Times
+### Verify a Token
 
-The library supports various expiration formats:
+Returns the decoded payload or `false` if invalid/expired. No exceptions to catch.
 
 ```ts
-// Numeric timestamp (seconds since epoch)
-await signJWT(secret, payload, 1672531200)
+import { verifyJWT } from '@nowarajs/jwt';
+
+const result = await verifyJWT(token, 'your-secret-key');
+if (result)
+  console.log('User ID:', result.payload.userId);
+else
+  console.log('Token invalid or expired');
+```
+
+### Expiration Formats
+
+```ts
+// Seconds from now
+await signJWT(secret, payload, 900);
 
 // Date object
-await signJWT(secret, payload, new Date('2024-12-31'))
+await signJWT(secret, payload, new Date('2026-12-31'));
 
-// Human-readable strings
-await signJWT(secret, payload, '15 minutes')
-await signJWT(secret, payload, '2 hours')
-await signJWT(secret, payload, '1 day')
-await signJWT(secret, payload, '1 week')
-await signJWT(secret, payload, '30 days')
-
-// With modifiers
-await signJWT(secret, payload, '+2 hours')
-await signJWT(secret, payload, '1 hour from now')
+// Human-readable (my favorite)
+await signJWT(secret, payload, '15 minutes');
+await signJWT(secret, payload, '1 week');
+await signJWT(secret, payload, '30 days');
 ```
 
-### Error Handling
+### Custom Claims
+
+Override any default claim by including it in your payload:
 
 ```ts
-import { signJWT, verifyJWT } from '@nowarajs/jwt'
-import { HttpError } from '@nowarajs/error'
-
-try {
-  const token = await signJWT('secret', { userId: '123' }, '-1 hour') // Past expiration
-} catch (error) {
-  if (error instanceof HttpError) {
-    console.log('JWT Error:', error.message)
-    console.log('Status Code:', error.httpStatusCode)
-  }
-}
+const token = await signJWT(
+  'secret',
+  {
+    userId: '123',
+    iss: 'MyApp',           // Override issuer
+    aud: ['web', 'mobile'], // Override audience
+    sub: 'user-123'         // Override subject
+  },
+  '1 day'
+);
 ```
 
 ## 📚 API Reference
 
-You can find the complete API reference documentation for `jwt` at:
-
-- [Reference Documentation](https://nowarajs.github.io/jwt/)
+Full docs: [nowarajs.github.io/jwt](https://nowarajs.github.io/jwt/)
 
 ## ⚖️ License
 
-Distributed under the MIT License. See [LICENSE](./LICENSE) for more information.
+MIT - Feel free to use it.
 
 ## 📧 Contact
 
