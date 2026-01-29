@@ -1,6 +1,6 @@
 {
 	"name": "@nowarajs/jwt",
-	"version": "1.2.3",
+	"version": "1.2.4",
 	"description": "A JWT (JSON Web Token) utility, using the Jose library",
 	"keywords": [
 		"bun",

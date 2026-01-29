@@ -1,4 +1,16 @@
 
+## v1.2.4
+
+[compare changes](https://github.com/NowaraJS/jwt/compare/v1.2.3...v1.2.4)
+
+### 📦 Build
+
+- **📦:** [update deps + npmignore] ([af1a160](https://github.com/NowaraJS/jwt/commit/af1a160))
+
+### ❤️ Contributors
+
+- Komiriko <komiriko@pm.me>
+
 ## v1.2.3
 
 [compare changes](https://github.com/NowaraJS/jwt/compare/v1.2.2...v1.2.3)
