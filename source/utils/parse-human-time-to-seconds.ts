@@ -18,8 +18,8 @@ const TIME_UNITS = {
  * Regular expression to parse human-readable time expressions
  * Matches patterns like: "2 hours", "+30 minutes", "1 day ago", "5 seconds from now"
  */
-const TIME_EXPRESSION_REGEX
-	= /^(\+|-)? ?(\d+|\d+\.\d+) ?(seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)(?: (ago|from now))?$/i;
+const TIME_EXPRESSION_REGEX =
+	/^(\+|-)? ?(\d+|\d+\.\d+) ?(seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)(?: (ago|from now))?$/i;
 
 /**
  * Mapping of unit strings to their corresponding time unit values
@@ -72,7 +72,7 @@ const UNIT_MAPPINGS: Record<string, number> = {
  * @throws ({@link InternalError}) - If the time expression is invalid or contains an unknown unit
  *
  * @returns The time period in seconds (negative for past times)
-*
+ *
  * @example
  * ```typescript
  * parseHumanTimeToSeconds("2 hours")      // Returns 7200
@@ -94,8 +94,7 @@ export const parseHumanTimeToSeconds = (timeExpression: string): number => {
 	const seconds = Math.round(value * multiplier);
 
 	// Return negative value for past times (ago or negative sign)
-	if (sign === '-' || direction === 'ago')
-		return -seconds;
+	if (sign === '-' || direction === 'ago') return -seconds;
 
 	return seconds;
 };

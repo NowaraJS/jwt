@@ -1,11 +1,5 @@
 import { InternalError, HttpError } from '@nowarajs/error';
-import {
-	SignJWT,
-	jwtVerify,
-	errors,
-	type JWTPayload,
-	type JWTVerifyResult
-} from 'jose';
+import { SignJWT, jwtVerify, errors, type JWTPayload, type JWTVerifyResult } from 'jose';
 
 import { JWT_ERROR_KEYS } from '#/enums/jwt-error-keys';
 import { parseHumanTimeToSeconds } from '#/utils/parse-human-time-to-seconds';
@@ -39,19 +33,18 @@ export const signJWT = (
 	payload: JWTPayload,
 	expiration: number | string | Date = 60 * 15 // 15 minutes
 ): Promise<string> => {
-	if (secret.length < 32)
-		throw new InternalError(JWT_ERROR_KEYS.JWT_SECRET_TOO_WEAK);
+	if (secret.length < 32) throw new InternalError(JWT_ERROR_KEYS.JWT_SECRET_TOO_WEAK);
 
 	const nowSeconds = Math.floor(Date.now() / 1000);
 
-	const exp = expiration instanceof Date
-		? Math.floor(expiration.getTime() / 1000)
-		: typeof expiration === 'number'
-			? nowSeconds + expiration
-			: nowSeconds + parseHumanTimeToSeconds(expiration);
+	const exp =
+		expiration instanceof Date
+			? Math.floor(expiration.getTime() / 1000)
+			: typeof expiration === 'number'
+				? nowSeconds + expiration
+				: nowSeconds + parseHumanTimeToSeconds(expiration);
 
-	if (exp <= nowSeconds)
-		throw new InternalError(JWT_ERROR_KEYS.JWT_EXPIRATION_PASSED);
+	if (exp <= nowSeconds) throw new InternalError(JWT_ERROR_KEYS.JWT_EXPIRATION_PASSED);
 
 	const finalPayload: JWTPayload = {
 		iss: 'Core-Issuer',
