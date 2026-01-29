@@ -35,68 +35,75 @@ describe.concurrent('JWT Core Functions', () => {
 			expect(result.payload.sub).toBe(userUuid);
 			expect(result.payload.role).toBe('admin');
 			expect(result.payload.exp).toBeGreaterThan(currentTime);
-			expect(result.payload.exp).toBeLessThanOrEqual(currentTime + DEFAULT_EXPIRY_SECONDS + 5); // Allow 5s tolerance
+			expect(result.payload.exp).toBeLessThanOrEqual(
+				currentTime + DEFAULT_EXPIRY_SECONDS + 5
+			); // Allow 5s tolerance
 		});
 
 		test.each([
 			{
 				name: 'numeric expiration (seconds offset)',
-				getExpiration: () => ONE_HOUR,
-				expectedExpiration: (currentTime: number) => currentTime + ONE_HOUR,
+				getExpiration: (): number => ONE_HOUR,
+				expectedExpiration: (currentTime: number): number => currentTime + ONE_HOUR,
 				tolerance: 5
 			},
 			{
 				name: 'Date expiration (2 hours)',
-				getExpiration: () => new Date(Date.now() + (TWO_HOURS * 1000)),
-				expectedExpiration: () => Math.floor((Date.now() + (TWO_HOURS * 1000)) / 1000),
+				getExpiration: (): Date => new Date(Date.now() + TWO_HOURS * 1000),
+				expectedExpiration: (): number =>
+					Math.floor((Date.now() + TWO_HOURS * 1000) / 1000),
 				tolerance: 2
 			},
 			{
 				name: 'Date expiration (30 minutes)',
-				getExpiration: () => new Date(Date.now() + (30 * 60 * 1000)),
-				expectedExpiration: () => Math.floor((Date.now() + (30 * 60 * 1000)) / 1000),
+				getExpiration: (): Date => new Date(Date.now() + 30 * 60 * 1000),
+				expectedExpiration: (): number => Math.floor((Date.now() + 30 * 60 * 1000) / 1000),
 				tolerance: 2
 			},
 			{
 				name: 'Date expiration (1 day)',
-				getExpiration: () => new Date(Date.now() + (24 * 60 * 60 * 1000)),
-				expectedExpiration: () => Math.floor((Date.now() + (24 * 60 * 60 * 1000)) / 1000),
+				getExpiration: (): Date => new Date(Date.now() + 24 * 60 * 60 * 1000),
+				expectedExpiration: (): number =>
+					Math.floor((Date.now() + 24 * 60 * 60 * 1000) / 1000),
 				tolerance: 2
 			},
 			{
 				name: 'human-readable time expression (15 minutes)',
-				getExpiration: () => '15 m',
-				expectedExpiration: (currentTime: number) => currentTime + (15 * 60),
+				getExpiration: (): string => '15 m',
+				expectedExpiration: (currentTime: number): number => currentTime + 15 * 60,
 				tolerance: 5
 			},
 			{
 				name: 'human-readable time expression (2 hours)',
-				getExpiration: () => '2 hours',
-				expectedExpiration: (currentTime: number) => currentTime + TWO_HOURS,
+				getExpiration: (): string => '2 hours',
+				expectedExpiration: (currentTime: number): number => currentTime + TWO_HOURS,
 				tolerance: 5
 			},
 			{
 				name: 'human-readable time expression (30 minutes)',
-				getExpiration: () => '30 minutes',
-				expectedExpiration: (currentTime: number) => currentTime + (30 * 60),
+				getExpiration: (): string => '30 minutes',
+				expectedExpiration: (currentTime: number): number => currentTime + 30 * 60,
 				tolerance: 5
 			},
 			{
 				name: 'human-readable time expression (1 day)',
-				getExpiration: () => '1 day',
-				expectedExpiration: (currentTime: number) => currentTime + (24 * 60 * 60),
+				getExpiration: (): string => '1 day',
+				expectedExpiration: (currentTime: number): number => currentTime + 24 * 60 * 60,
 				tolerance: 5
 			}
-		])('should sign JWT with $name', async ({ getExpiration, expectedExpiration, tolerance }) => {
-			const expiration = getExpiration();
-			const token = await signJWT(testSecret, {}, expiration);
+		])(
+			'should sign JWT with $name',
+			async ({ getExpiration, expectedExpiration, tolerance }) => {
+				const expiration = getExpiration();
+				const token = await signJWT(testSecret, {}, expiration);
 
-			const result = await verifyJWT(token, testSecret);
+				const result = await verifyJWT(token, testSecret);
 
-			const expected = expectedExpiration(currentTime);
-			expect(result.payload.exp).toBeGreaterThanOrEqual(expected - tolerance);
-			expect(result.payload.exp).toBeLessThanOrEqual(expected + tolerance);
-		});
+				const expected = expectedExpiration(currentTime);
+				expect(result.payload.exp).toBeGreaterThanOrEqual(expected - tolerance);
+				expect(result.payload.exp).toBeLessThanOrEqual(expected + tolerance);
+			}
+		);
 
 		test('should include all standard JWT claims', async () => {
 			const payload: JWTPayload = { userId: 111, customField: 'test' };
@@ -147,39 +154,44 @@ describe.concurrent('JWT Core Functions', () => {
 		test.each([
 			{
 				name: 'numeric expiration in past (negative offset)',
-				getExpiration: () => -ONE_HOUR
+				getExpiration: (): number => -ONE_HOUR
 			},
 			{
 				name: 'Date object in past',
-				getExpiration: () => new Date(Date.now() - (ONE_HOUR * 1000))
+				getExpiration: (): Date => new Date(Date.now() - ONE_HOUR * 1000)
 			},
 			{
 				name: 'human-readable expression (1 hour ago)',
-				getExpiration: () => '1 hour ago'
+				getExpiration: (): string => '1 hour ago'
 			},
 			{
 				name: 'human-readable expression (30 minutes ago)',
-				getExpiration: () => '30 minutes ago'
+				getExpiration: (): string => '30 minutes ago'
 			},
 			{
 				name: 'human-readable expression (2 days ago)',
-				getExpiration: () => '2 days ago'
+				getExpiration: (): string => '2 days ago'
 			},
 			{
 				name: 'numeric offset equal to zero',
-				getExpiration: () => 0
+				getExpiration: (): number => 0
 			}
-		])('should throw InternalError when expiration $name is in the past or current time', async ({ getExpiration }) => {
-			const expiration = getExpiration();
+		])(
+			'should throw InternalError when expiration $name is in the past or current time',
+			async ({ getExpiration }) => {
+				const expiration = getExpiration();
 
-			try {
-				await signJWT(testSecret, {}, expiration);
-				expect.unreachable();
-			} catch (error) {
-				expect(error).toBeInstanceOf(InternalError);
-				expect((error as InternalError).message).toBe(JWT_ERROR_KEYS.JWT_EXPIRATION_PASSED);
+				try {
+					await signJWT(testSecret, {}, expiration);
+					expect.unreachable();
+				} catch (error) {
+					expect(error).toBeInstanceOf(InternalError);
+					expect((error as InternalError).message).toBe(
+						JWT_ERROR_KEYS.JWT_EXPIRATION_PASSED
+					);
+				}
 			}
-		});
+		);
 
 		test('should handle empty payload', async () => {
 			const token = await signJWT(testSecret, {});
@@ -291,7 +303,7 @@ describe.concurrent('JWT Core Functions', () => {
 			const token = await signJWT(testSecret, {}, 1);
 
 			// Wait for the token to expire
-			await new Promise((resolve) => setTimeout(resolve, 1100));
+			await Bun.sleep(1100);
 
 			try {
 				await verifyJWT(token, testSecret);
@@ -340,7 +352,9 @@ describe.concurrent('JWT Core Functions', () => {
 				expect.unreachable();
 			} catch (error) {
 				expect(error).toBeInstanceOf(HttpError);
-				expect((error as HttpError).message).toBe(JWT_ERROR_KEYS.JWT_CLAIM_VALIDATION_FAILED);
+				expect((error as HttpError).message).toBe(
+					JWT_ERROR_KEYS.JWT_CLAIM_VALIDATION_FAILED
+				);
 			}
 		});
 
@@ -357,7 +371,9 @@ describe.concurrent('JWT Core Functions', () => {
 				expect.unreachable();
 			} catch (error) {
 				expect(error).toBeInstanceOf(HttpError);
-				expect((error as HttpError).message).toBe(JWT_ERROR_KEYS.JWT_CLAIM_VALIDATION_FAILED);
+				expect((error as HttpError).message).toBe(
+					JWT_ERROR_KEYS.JWT_CLAIM_VALIDATION_FAILED
+				);
 			}
 		});
 	});
@@ -369,13 +385,16 @@ describe.concurrent('JWT Core Functions', () => {
 			{ name: 'boolean values', payload: { isActive: true, isVerified: false } },
 			{ name: 'array values', payload: { permissions: ['read', 'write'], tags: [1, 2, 3] } },
 			{ name: 'null values', payload: { optionalField: null, userId: 555 } },
-			{ name: 'mixed types', payload: {
-				userId: 888,
-				name: 'Test User',
-				isActive: true,
-				permissions: ['admin'],
-				metadata: null
-			} }
+			{
+				name: 'mixed types',
+				payload: {
+					userId: 888,
+					name: 'Test User',
+					isActive: true,
+					permissions: ['admin'],
+					metadata: null
+				}
+			}
 		])('should handle complete sign and verify cycle with $name', async ({ payload }) => {
 			const token = await signJWT(testSecret, payload);
 			const result = await verifyJWT(token, testSecret);
@@ -407,7 +426,7 @@ describe.concurrent('JWT Core Functions', () => {
 		test('should handle different expiration formats consistently', async () => {
 			// Test different expiration formats that should result in similar expiration times
 			const token1 = await signJWT(testSecret, {}, ONE_HOUR); // numeric offset in seconds
-			const token2 = await signJWT(testSecret, {}, new Date(Date.now() + (ONE_HOUR * 1000))); // Date object
+			const token2 = await signJWT(testSecret, {}, new Date(Date.now() + ONE_HOUR * 1000)); // Date object
 			const token3 = await signJWT(testSecret, {}, '1 hour'); // human-readable string
 
 			const result1 = await verifyJWT(token1, testSecret);

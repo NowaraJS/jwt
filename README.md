@@ -45,11 +45,7 @@ import { signJWT } from '@nowarajs/jwt';
 // Secret must be at least 32 characters
 const secret = 'your-secret-key-at-least-32-chars!';
 
-const token = await signJWT(
-  secret,
-  { userId: '123', role: 'admin' },
-  '2 hours'
-);
+const token = await signJWT(secret, { userId: '123', role: 'admin' }, '2 hours');
 ```
 
 ### Verify a Token
@@ -60,11 +56,11 @@ Returns the decoded payload or throws `HttpError` (401) if invalid/expired.
 import { verifyJWT } from '@nowarajs/jwt';
 
 try {
-  const result = await verifyJWT(token, secret);
-  console.log('User ID:', result.payload.userId);
+	const result = await verifyJWT(token, secret);
+	console.log('User ID:', result.payload.userId);
 } catch (error) {
-  // HttpError with specific error key
-  console.log('Token verification failed:', error.message);
+	// HttpError with specific error key
+	console.log('Token verification failed:', error.message);
 }
 ```
 
@@ -76,8 +72,8 @@ Validate issuer and audience claims:
 import { verifyJWT } from '@nowarajs/jwt';
 
 const result = await verifyJWT(token, secret, {
-  issuer: 'Core-Issuer',
-  audience: 'Core-Audience'
+	issuer: 'Core-Issuer',
+	audience: 'Core-Audience'
 });
 ```
 
@@ -102,14 +98,14 @@ Override any default claim by including it in your payload:
 
 ```ts
 const token = await signJWT(
-  'secret',
-  {
-    userId: '123',
-    iss: 'MyApp',           // Override issuer
-    aud: ['web', 'mobile'], // Override audience
-    sub: 'user-123'         // Override subject
-  },
-  '1 day'
+	'secret',
+	{
+		userId: '123',
+		iss: 'MyApp', // Override issuer
+		aud: ['web', 'mobile'], // Override audience
+		sub: 'user-123' // Override subject
+	},
+	'1 day'
 );
 ```
 
