@@ -1,15 +1,24 @@
 {
 	"name": "@nowarajs/jwt",
 	"version": "1.2.3",
-	"author": "NowaraJS",
 	"description": "A JWT (JSON Web Token) utility, using the Jose library",
-	"type": "module",
-	"license": "MIT",
 	"keywords": [
 		"bun",
-		"nowarajs",
-		"jwt"
+		"jwt",
+		"nowarajs"
 	],
+	"license": "MIT",
+	"author": "NowaraJS",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/NowaraJS/jwt.git"
+	},
+	"type": "module",
+	"exports": {
+		"./enums": "./dist/enums/index.js",
+		"./utils": "./dist/utils/index.js",
+		".": "./dist/index.js"
+	},
 	"scripts": {
 		"build": "bun builder.ts",
 		"dev": "bun --watch sandbox/index.ts",
@@ -23,24 +32,19 @@
 		"test:unit": "bun test --coverage $(find test/unit -name '*.spec.ts')",
 		"test": "bun test --coverage"
 	},
+	"dependencies": {
+		"jose": "^6.1.3"
+	},
 	"devDependencies": {
-		"@nowarajs/error": "^1.4.1",
-		"@types/bun": "^1.3.5",
+		"@nowarajs/error": "^1.4.3",
+		"@types/bun": "^1.3.7",
 		"oxfmt": "^0.27.0",
 		"oxlint": "^1.42.0",
 		"oxlint-tsgolint": "^0.11.3",
 		"typescript": "^5.9.3"
 	},
-	"dependencies": {
-		"jose": "^6.1.3"
-	},
 	"peerDependencies": {
-		"@nowarajs/error": "^1.4.1"
-	},
-	"exports": {
-		"./enums": "./dist/enums/index.js",
-		"./utils": "./dist/utils/index.js",
-		".": "./dist/index.js"
+		"@nowarajs/error": "^1.4.3"
 	},
 	"changelog": {
 		"types": {
@@ -98,9 +102,5 @@
 			"tagMessage": "v{{newVersion}}",
 			"tagBody": "v{{newVersion}}"
 		}
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/NowaraJS/jwt.git"
 	}
 }
